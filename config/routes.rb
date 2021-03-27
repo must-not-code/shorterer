@@ -1,3 +1,7 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root 'short_urls#new'
+
+  match '/urls', to: 'short_urls#create', via: :post
+  match '/urls/:short_url', to: 'short_urls#view', via: :get, as: 'short_url'
+  match '/urls/:short_url/stats', to: 'short_urls#show', via: :get
 end

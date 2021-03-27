@@ -1,0 +1,7 @@
+<% if @short_url.present? %>
+  <h1><%= link_to(short_url_url(@short_url.slug), short_url_path(@short_url.slug)) %></h1>
+  <h2><%= link_to(@short_url.url, @short_url.url) %></h2>
+  <p>Views count: <%= @short_url.views_count %></p>
+<% else %>
+  <%= render 'not_found' %>
+<% end %>
