@@ -15,7 +15,7 @@ class View < ApplicationRecord
     )
   end
 
-  def self.test_search(slug)
+  def self.statistics(slug)
     View.__elasticsearch__.search(
       query: {
         bool: {
@@ -32,7 +32,43 @@ class View < ApplicationRecord
             }
           }
         }
+      },
+      size: 0,
+      aggs: {
+        date: {
+          date_histogram: {
+            field: 'created_at',
+            interval: 'day',
+            order: {
+              _key: 'desc'
+            }
+          }
+        },
+        platform: {
+          terms: {
+            field: 'platform.keyword',
+            order: {
+              _count: 'desc'
+            }
+          }
+        },
+        device: {
+          terms: {
+            field: 'device.keyword',
+            order: {
+              _count: 'desc'
+            }
+          }
+        },
+        country: {
+          terms: {
+            field: 'country.keyword',
+            order: {
+              _count: 'desc'
+            }
+          }
+        }
       }
-    )
+    ).aggregations
   end
 end

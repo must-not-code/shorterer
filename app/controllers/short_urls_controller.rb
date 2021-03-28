@@ -14,6 +14,7 @@ class ShortUrlsController < ApplicationController
   end
 
   def show
+    @statistics = View.statistics(@short_url.slug) if @short_url.present?
   end
 
   def view
