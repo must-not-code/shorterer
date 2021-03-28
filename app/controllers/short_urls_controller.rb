@@ -18,12 +18,14 @@ class ShortUrlsController < ApplicationController
 
   def view
     if @short_url.present?
+      # TODO move it to Sidekiq
       View.create(
         short_url_id: @short_url.id,
         platform: browser.platform.name,
         device: browser.device.name,
-        country: nil
+        country: GeoIpApi.determine(request.remote_ip) # TODO stub/mock in tests
       )
+
       redirect_to @short_url.url
     else
       render '_not_found'
