@@ -18,7 +18,12 @@ class ShortUrlsController < ApplicationController
 
   def view
     if @short_url.present?
-      View.create(short_url_id: @short_url.id)
+      View.create(
+        short_url_id: @short_url.id,
+        platform: browser.platform.name,
+        device: browser.device.name,
+        country: nil
+      )
       redirect_to @short_url.url
     else
       render '_not_found'
