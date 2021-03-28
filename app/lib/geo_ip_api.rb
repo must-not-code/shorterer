@@ -6,6 +6,6 @@ class GeoIpApi
   )
 
   def self.determine(ip)
-    @@client.country(ip).country.name
+    @@client.country(ip).country.name rescue 'Unknown'
   end
 end
