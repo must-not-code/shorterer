@@ -2,17 +2,20 @@
   <h1><%= link_to(short_url_url(@short_url.slug), short_url_path(@short_url.slug)) %></h1>
   <h2><%= link_to(@short_url.url, @short_url.url) %></h2>
   <p>Views count: <%= @short_url.views_count %></p>
+  <p>Unique views count: <%= @short_url.views.count('DISTINCT fingerprint') %></p>
 
   <% @statistics.each do |aggregation| %>
     <table>
       <tr>
         <th><%= aggregation.first.capitalize %></th>
         <th>Views</th>
+        <th>Uniq Views</th>
       </tr>
       <% aggregation.last.buckets.each do |key| %>
         <tr>
           <td><%= key.key_as_string&.to_date || key[:key] %></td>
           <td><%= key.doc_count %></td>
+          <td><%= key.uniq_views.value %></td>
         </tr>
       <% end %>
     </table>

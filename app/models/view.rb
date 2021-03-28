@@ -6,7 +6,7 @@ class View < ApplicationRecord
 
   def as_indexed_json(options = {})
     self.as_json(
-      only: [:id, :platform, :device, :country, :created_at],
+      only: [:id, :platform, :device, :country, :fingerprint, :created_at],
       include: {
         short_url: {
           only: [:slug]
@@ -42,7 +42,14 @@ class View < ApplicationRecord
             order: {
               _key: 'desc'
             }
-          }
+          },
+          aggs: {
+            uniq_views: {
+              cardinality: {
+                field: 'fingerprint.keyword',
+              }
+            }
+          },
         },
         platform: {
           terms: {
@@ -50,7 +57,14 @@ class View < ApplicationRecord
             order: {
               _count: 'desc'
             }
-          }
+          },
+          aggs: {
+            uniq_views: {
+              cardinality: {
+                field: 'fingerprint.keyword',
+              }
+            }
+          },
         },
         device: {
           terms: {
@@ -58,7 +72,14 @@ class View < ApplicationRecord
             order: {
               _count: 'desc'
             }
-          }
+          },
+          aggs: {
+            uniq_views: {
+              cardinality: {
+                field: 'fingerprint.keyword',
+              }
+            }
+          },
         },
         country: {
           terms: {
@@ -66,7 +87,14 @@ class View < ApplicationRecord
             order: {
               _count: 'desc'
             }
-          }
+          },
+          aggs: {
+            uniq_views: {
+              cardinality: {
+                field: 'fingerprint.keyword',
+              }
+            }
+          },
         }
       }
     ).aggregations

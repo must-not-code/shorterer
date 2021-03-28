@@ -24,6 +24,7 @@ class ShortUrlsController < ApplicationController
         short_url_id: @short_url.id,
         platform: browser.platform.name,
         device: browser.device.name,
+        fingerprint: Digest::SHA1.hexdigest(@short_url.slug + request.user_agent + request.remote_ip),
         country: GeoIpApi.determine(request.remote_ip) # TODO stub/mock in tests
       )
 
