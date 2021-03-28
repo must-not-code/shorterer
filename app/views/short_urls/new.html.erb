@@ -1,1 +1,8 @@
-<h1>Main</h1>
+<div id="form">
+  <h1>Paste long url and shorten it</h1>
+  <p id="error"><p>
+  <%= form_tag '/urls', remote: true do %>
+    <%= text_field_tag :url %>
+    <%= submit_tag 'Shorten', data: { disable_with: 'Shortening' } %>
+  <% end %>
+<div>
